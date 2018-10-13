@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+/*
+ * This program takes in user input to perform operations
+ * on an azure sql server database.
+ */
 public class Program {
 
 	public static void main(String[] args) {

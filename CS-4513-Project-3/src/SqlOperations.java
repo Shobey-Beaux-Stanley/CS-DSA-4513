@@ -3,9 +3,16 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.DriverManager;
-
+/*
+ * This class will handle all sql operations. Each operation
+ * is performed in its own method.
+ */
 public class SqlOperations {
 	private Connection connection;
+	
+	/*
+	 * Default constructor that sets up connection with database.
+	 */
 	public SqlOperations() {
 		// Connect to database
 		final String url = "jdbc:sqlserver://stan8884-sql-server.database.windows.net:"
@@ -33,6 +40,9 @@ public class SqlOperations {
 		
 	}
 	
+	/*
+	 * This operation will display the problem and author table contents.
+	 */
 	public void operation3() {
 		final String url = "jdbc:sqlserver://stan8884-sql-server.database.windows.net:"
 				+ "1433;database=cs-dsa-4513-sql-project-3;user=stan8884@stan8884-sql-server;password="
