@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Scanner;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.DriverManager;
@@ -33,23 +34,59 @@ public class SqlOperations {
 	}
 
 	public void operation1() {
-		
-	}
-	
-	public void operation2() {
-		
+		try {
+			Statement statement = this.connection.createStatement();
+		}
+		catch (SQLException e) {
+			System.out.println("An error occured");
+			e.printStackTrace();
+		}
 	}
 	
 	/*
-	 * This operation will display the problem and author table contents.
+	 * This method will increase the compensation of an author,
+	 * identified by aid from user input. The compensation will depend
+	 * on the amount of problems created by the author in
+	 * the Problem table.
+	 */
+	public void operation2(int userInputAid) {
+		try {
+			Statement statement = this.connection.createStatement();
+			ResultSet resultSet =statement.executeQuery("EXEC operation2 @aid = " + userInputAid);
+			int place = 1;
+			while (resultSet.next()) {
+				int aid = resultSet.getInt("aid");
+				if (userInputAid == aid) {
+					Statement updateStatement = this.connection.createStatement();
+					switch (place) {
+						case 1:
+							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + ", @compIncrease =  " + "1.2");
+							break;
+						case 2:
+							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + ", @compIncrease =  " + "1.15");
+							break;
+						case 3:
+							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + ", @compIncrease =  " + "1.1");
+							break;
+						default:
+							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + " @compIncrease =  " + "1.05");
+							break;
+					}
+				}
+				place++;
+			}
+		}
+		catch (SQLException e) {
+			System.out.println("An error occured");
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * This method will display the problem and author table contents.
 	 */
 	public void operation3() {
-		final String url = "jdbc:sqlserver://stan8884-sql-server.database.windows.net:"
-				+ "1433;database=cs-dsa-4513-sql-project-3;user=stan8884@stan8884-sql-server;password="
-				+ "Mario1991!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*"
-				+ ".database.windows.net;loginTimeout=30;";
 		try  {
-			System.out.println("Here");
 			Statement statement1 = this.connection.createStatement();
 			Statement statement2 = this.connection.createStatement();
 			ResultSet  authorResultSet = statement1.executeQuery("SELECT * FROM Author");
@@ -74,6 +111,7 @@ public class SqlOperations {
 			System.out.println();
 		} 
 		catch (SQLException e) {
+			System.out.println("An error occured");
 			e.printStackTrace();
 		}
 	}

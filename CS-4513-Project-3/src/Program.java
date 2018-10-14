@@ -22,7 +22,9 @@ public class Program {
 					operations.operation1();
 					break;
 				case "2":
-					operations.operation2();
+					System.out.println("Enter an aid");
+					int aid = scanner.nextInt();
+					operations.operation2(aid);
 					break;
 				case "3":
 					operations.operation3();
