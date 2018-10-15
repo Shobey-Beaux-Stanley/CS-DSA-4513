@@ -24,10 +24,12 @@ public class Program {
 				case "1":
 					System.out.print("Enter pid : ");
 					int pid = scanner.nextInt();
+					scanner.nextLine();
 					System.out.println("Enter pname: ");
-					String pname = scanner.next();
+					String pname = scanner.nextLine();
 					System.out.println("Enter aid: ");
 					int new_aid = scanner.nextInt();
+					scanner.nextLine();
 					operations.operation1(pid, pname, new_aid);
 					break;
 				case "2":
@@ -44,5 +46,4 @@ public class Program {
 			}
 		} while (!userInput.equals("4"));
 	}
-
 }
