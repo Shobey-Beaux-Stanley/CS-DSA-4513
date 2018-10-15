@@ -6,6 +6,9 @@ import java.util.Scanner;
  */
 public class Program {
 
+	/*
+	 * Main program loop with user input is executed here.
+	 */
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		String userInput = "";
@@ -19,11 +22,11 @@ public class Program {
 			userInput = scanner.nextLine();
 			switch (userInput) {
 				case "1":
-					System.out.println("Enter pid : ");
+					System.out.print("Enter pid : ");
 					int pid = scanner.nextInt();
-					System.out.println("\nEnter pname: ");
+					System.out.println("Enter pname: ");
 					String pname = scanner.next();
-					System.out.println("\nEnter aid: ");
+					System.out.println("Enter aid: ");
 					int new_aid = scanner.nextInt();
 					operations.operation1(pid, pname, new_aid);
 					break;
