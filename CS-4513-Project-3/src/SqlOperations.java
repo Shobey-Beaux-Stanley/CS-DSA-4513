@@ -20,7 +20,6 @@ public class SqlOperations {
 				+ "1433;database=cs-dsa-4513-sql-project-3;user=stan8884@stan8884-sql-server;password="
 				+ "Mario1991!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*"
 				+ ".database.windows.net;loginTimeout=30;";
-		//try (final Connection connection = DriverManager.getConnection(url)) {
 		try {
 			this.connection = DriverManager.getConnection(url);
 			final String schema = connection.getSchema();
@@ -33,9 +32,27 @@ public class SqlOperations {
 		}
 	}
 
-	public void operation1() {
+	/*
+	 * Inserts a new problem into the program. Max Score is calculated here and 
+	 * inserted along with the three arguments supplied from user input.
+	 */
+	public void operation1(int pid, String pname,  int aid) {
 		try {
-			Statement statement = this.connection.createStatement();
+			Statement statement1 = this.connection.createStatement();
+			Statement statement2 = this.connection.createStatement();
+			ResultSet allAVGResultSet =statement1.executeQuery("EXEC getMaxAvg;");
+			ResultSet aidAVGResultSet =statement2.executeQuery("EXEC getMaxAvgWithAid @aid = " + aid +";");
+			allAVGResultSet.next();
+			int newMaxAvg = allAVGResultSet.getInt("avg_max");
+			aidAVGResultSet.next();
+			if ( !aidAVGResultSet.wasNull()) {
+				int aidMaxAvg = aidAVGResultSet.getInt("avg_max");
+				long temp = Math.round(aidMaxAvg * .10);
+				newMaxAvg = newMaxAvg + (int)temp; 
+			}
+			Statement updateStatement = this.connection.createStatement();
+			updateStatement.executeUpdate("EXEC operation1 @new_pid = " + pid + ", " + "@new_pname = " + pname + ","
+					+ " @new_maxscore = " + newMaxAvg + "," + "@new_aid = " + aid + ";" );
 		}
 		catch (SQLException e) {
 			System.out.println("An error occured");
@@ -52,7 +69,7 @@ public class SqlOperations {
 	public void operation2(int userInputAid) {
 		try {
 			Statement statement = this.connection.createStatement();
-			ResultSet resultSet =statement.executeQuery("EXEC operation2 @aid = " + userInputAid);
+			ResultSet resultSet =statement.executeQuery("EXEC operation2 @aid = " + userInputAid + ";");
 			int place = 1;
 			while (resultSet.next()) {
 				int aid = resultSet.getInt("aid");
@@ -60,16 +77,16 @@ public class SqlOperations {
 					Statement updateStatement = this.connection.createStatement();
 					switch (place) {
 						case 1:
-							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + ", @compIncrease =  " + "1.2");
+							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + ", @compIncrease =  " + "1.2;");
 							break;
 						case 2:
-							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + ", @compIncrease =  " + "1.15");
+							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + ", @compIncrease =  " + "1.15;");
 							break;
 						case 3:
-							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + ", @compIncrease =  " + "1.1");
+							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + ", @compIncrease =  " + "1.1;");
 							break;
 						default:
-							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + " @compIncrease =  " + "1.05");
+							updateStatement.executeUpdate("EXEC updateCompensation @aid = " + aid + " @compIncrease =  " + "1.05;");
 							break;
 					}
 				}
@@ -89,8 +106,8 @@ public class SqlOperations {
 		try  {
 			Statement statement1 = this.connection.createStatement();
 			Statement statement2 = this.connection.createStatement();
-			ResultSet  authorResultSet = statement1.executeQuery("SELECT * FROM Author");
-			ResultSet problemResultSet = statement2.executeQuery("SELECT * FROM Problem");
+			ResultSet  authorResultSet = statement1.executeQuery("SELECT * FROM Author;");
+			ResultSet problemResultSet = statement2.executeQuery("SELECT * FROM Problem;");
 			System.out.println("Author Table");
 			System.out.println("aid           aname          compensation");
 			while (authorResultSet.next()) {

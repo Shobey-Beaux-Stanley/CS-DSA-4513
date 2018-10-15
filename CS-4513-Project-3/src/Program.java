@@ -12,14 +12,20 @@ public class Program {
 		SqlOperations operations = new SqlOperations();
 		do {
 			System.out.println("Enter an operation to perform: \n"
-					+ "(1)   Describe Operation 1\n"
-					+ "(2)   Describe Operation 2\n"
+					+ "(1)   Enter a new problem\n"
+					+ "(2)   Increase Compensation\n"
 					+ "(3)   Display the information from both the author and problem tables\n"
 					+ "(4)   Quit Application");
 			userInput = scanner.nextLine();
-			switch (userInput) {//Finish implementing these
+			switch (userInput) {
 				case "1":
-					operations.operation1();
+					System.out.println("Enter pid : ");
+					int pid = scanner.nextInt();
+					System.out.println("\nEnter pname: ");
+					String pname = scanner.next();
+					System.out.println("\nEnter aid: ");
+					int new_aid = scanner.nextInt();
+					operations.operation1(pid, pname, new_aid);
 					break;
 				case "2":
 					System.out.println("Enter an aid");
